@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VosiVosi — Power, light and cool air</title>
+<meta name="description" content="45W laptop power banks and solar fans. Pay with mobile money or card in Zambia and South Africa.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  :focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
+  #track{transition:transform .6s ease}
+  @media (prefers-reduced-motion:reduce){#track{transition:none}}
+  #drawer{transition:transform .25s ease}
+</style>
+</head>
+<body class="bg-stone-100 text-stone-900">
+
+<!-- HEADER -->
+<header class="bg-slate-900 text-white sticky top-0 z-30">
+  <div class="max-w-6xl mx-auto px-3 py-2 flex items-center gap-3">
+    <button id="menuBtn" aria-label="Open departments" class="p-2 text-2xl leading-none">☰</button>
+    <a href="/" class="text-xl font-black tracking-tight">Vosi<span class="text-amber-400">Vosi</span></a>
+    <form id="searchForm" class="hidden sm:flex flex-1 mx-2" role="search">
+      <input id="search" placeholder="Search VosiVosi" class="w-full rounded-l-lg px-3 py-2 text-stone-900">
+      <button class="bg-amber-400 text-slate-900 px-4 rounded-r-lg font-bold" aria-label="Search">Search</button>
+    </form>
+    <select id="region" aria-label="Country" class="ml-auto bg-slate-800 border border-slate-600 rounded-lg px-2 py-2 text-sm"></select>
+    <a href="#checkout" class="relative p-2 text-2xl" aria-label="Cart">🛒<span id="count" class="absolute -top-0.5 -right-0.5 bg-amber-400 text-slate-900 text-xs font-bold rounded-full w-5 h-5 grid place-items-center">0</span></a>
+  </div>
+  <form id="searchForm2" class="sm:hidden px-3 pb-2 flex" role="search">
+    <input id="search2" placeholder="Search VosiVosi" class="w-full rounded-l-lg px-3 py-2 text-stone-900">
+    <button class="bg-amber-400 text-slate-900 px-4 rounded-r-lg font-bold" aria-label="Search">Search</button>
+  </form>
+  <nav class="bg-slate-800 text-sm">
+    <div class="max-w-6xl mx-auto px-3 flex gap-5 overflow-x-auto whitespace-nowrap py-2" id="topnav"></div>
+  </nav>
+  <div id="deliverBar" class="bg-slate-700 text-xs sm:text-sm px-3 py-1.5 text-center"></div>
+</header>
+
+<!-- DEPARTMENTS DRAWER -->
+<div id="scrim" class="fixed inset-0 bg-black/60 z-40 hidden"></div>
+<aside id="drawer" class="fixed top-0 left-0 bottom-0 w-4/5 max-w-sm bg-white z-50 -translate-x-full overflow-y-auto" aria-label="Departments">
+  <div class="bg-slate-900 text-white px-4 py-4 flex justify-between items-center">
+    <span class="font-bold text-lg">Shop VosiVosi</span>
+    <button id="closeBtn" aria-label="Close" class="text-2xl">✕</button>
+  </div>
+  <h2 class="px-4 pt-4 pb-1 font-bold">Departments</h2>
+  <ul id="deptList" class="px-2 pb-6"></ul>
+</aside>
+
+<main class="max-w-6xl mx-auto">
+
+  <!-- HERO CAROUSEL -->
+  <section class="relative overflow-hidden sm:rounded-b-2xl" aria-roledescription="carousel" aria-label="Featured">
+    <div id="track" class="flex" style="width:300%">
+      <a href="#shop" data-filter="power" class="slide w-1/3 min-h-[220px] sm:min-h-[340px] bg-gradient-to-br from-amber-400 to-orange-500 p-6 sm:p-12 flex flex-col justify-center">
+        <p class="font-semibold">New · 45W USB-C</p>
+        <h2 class="text-3xl sm:text-6xl font-black leading-[1.05] max-w-xl mt-1">Charge your laptop anywhere</h2>
+        <p class="mt-3 max-w-md">The VosiVosi 45W Fast-Charging Power Bank. One bank for laptop, phone and tablet.</p>
+        <span class="mt-5 self-start bg-slate-900 text-white font-bold rounded-lg px-5 py-3">Shop power banks</span>
+      </a>
+      <a href="#shop" data-filter="solar" class="slide w-1/3 min-h-[220px] sm:min-h-[340px] bg-gradient-to-br from-emerald-500 to-teal-700 text-white p-6 sm:p-12 flex flex-col justify-center">
+        <p class="font-semibold">Runs on sunlight</p>
+        <h2 class="text-3xl sm:text-6xl font-black leading-[1.05] max-w-xl mt-1">Stay cool when the power is off</h2>
+        <p class="mt-3 max-w-md">15W Solar Utility Fans for homes, shops and classrooms.</p>
+        <span class="mt-5 self-start bg-white text-slate-900 font-bold rounded-lg px-5 py-3">Shop solar fans</span>
+      </a>
+      <a href="#shop" class="slide w-1/3 min-h-[220px] sm:min-h-[340px] bg-gradient-to-br from-slate-800 to-indigo-900 text-white p-6 sm:p-12 flex flex-col justify-center">
+        <p class="font-semibold" id="payBanner"></p>
+        <h2 class="text-3xl sm:text-6xl font-black leading-[1.05] max-w-xl mt-1">Pay the way you already do</h2>
+        <p class="mt-3 max-w-md">Secure checkout. No account needed.</p>
+        <span class="mt-5 self-start bg-amber-400 text-slate-900 font-bold rounded-lg px-5 py-3">Start shopping</span>
+      </a>
+    </div>
+    <button id="prev" aria-label="Previous slide" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 rounded-full w-10 h-10 text-xl">‹</button>
+    <button id="next" aria-label="Next slide" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 rounded-full w-10 h-10 text-xl">›</button>
+    <div id="dots" class="absolute bottom-3 left-0 right-0 flex justify-center gap-2"></div>
+  </section>
+
+  <!-- CATEGORY TILES -->
+  <section class="px-3 -mt-2 pt-6">
+    <h2 class="text-xl font-bold mb-3">Shop by need</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3" id="tiles"></div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section id="shop" class="px-3 py-8 scroll-mt-32">
+    <div class="flex items-baseline justify-between mb-3">
+      <h2 class="text-xl font-bold" id="shopTitle">Top picks</h2>
+      <button id="clearFilter" class="text-sm text-blue-700 underline hidden">Show all</button>
+    </div>
+    <div id="products" class="grid gap-3 sm:grid-cols-2"></div>
+    <p id="empty" class="hidden text-stone-600 py-6">No matches. Try “power bank” or “fan”.</p>
+  </section>
+
+  <!-- CHECKOUT -->
+  <section id="checkout" class="px-3 pb-14 scroll-mt-32">
+    <div class="bg-white rounded-2xl border border-stone-200 p-5 sm:p-8 max-w-xl">
+      <h2 class="text-2xl font-bold">Your order</h2>
+      <ul id="lines" class="mt-3 divide-y"></ul>
+      <p id="summary" class="mt-2 text-stone-600">Your cart is empty.</p>
+      <div class="mt-4 grid gap-3">
+        <input id="name" autocomplete="name" placeholder="Full name" class="border border-stone-300 rounded-lg px-3 py-3">
+        <input id="email" type="email" autocomplete="email" placeholder="Email" class="border border-stone-300 rounded-lg px-3 py-3">
+        <input id="phone" type="tel" autocomplete="tel" class="border border-stone-300 rounded-lg px-3 py-3">
+      </div>
+      <button id="buy" class="mt-5 w-full bg-amber-400 text-slate-900 font-bold rounded-xl px-6 py-4 disabled:opacity-40" disabled></button>
+      <p class="mt-2 text-xs text-stone-500">You will see your total on the secure payment page before you pay.</p>
+      <p id="msg" role="status" class="mt-3 text-sm"></p>
+    </div>
+  </section>
+</main>
+
+<footer class="bg-slate-900 text-slate-400 text-sm text-center py-6">© VosiVosi · vosivosi.shop</footer>
+
+<script>
+// Set to your Render/Railway backend URL after deploying server/.
+const API_BASE = 'https://YOUR-BACKEND.onrender.com';
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const cart = {};
+let catalog, region, filter = null, query = '';
+
+const FALLBACK = {defaultRegion:'ZM',products:{powerbank45w:{name:'VosiVosi 45W Laptop Fast-Charging Power Bank',blurb:'45W USB-C PD. Charges laptops, phones and tablets.',tag:'power'},solarfan15w:{name:'15W Solar Utility Fan',blurb:'Runs off the sun. Built for power cuts and hot rooms.',tag:'solar'}},regions:{ZM:{label:'Zambia',flag:'🇿🇲',currency:'ZMW',methods:['MTN Mobile Money','Airtel Money','Zamtel Kwacha','Card'],buttonLabel:'Buy via Mobile Money / Card',delivery:'Delivery across Zambia',phoneHint:'+260 97X XXX XXX'},ZA:{label:'South Africa',flag:'🇿🇦',currency:'ZAR',methods:['Card','Instant EFT'],buttonLabel:'Pay by Card / EFT',delivery:'Delivery across South Africa',phoneHint:'+27 7X XXX XXXX'}}};
+
+const DEPTS = [
+  ['⚡','Power banks','power'], ['☀️','Solar fans','solar'], ['🔌','Loadshedding & power-cut solutions','all'],
+  ['💻','Laptop accessories','power'], ['🏠','Home & cooling','solar'], ['🏷️','All products','all']
+];
+const ICON = { power:'🔋', solar:'🌞' };
+
+async function init() {
+  try { catalog = await (await fetch(API_BASE + '/api/catalog')).json(); } catch (e) { catalog = FALLBACK; }
+  const p = new URLSearchParams(location.search);
+  const pick = [p.get('region'), localStorage.getItem('vv_region'), catalog.defaultRegion].find(c => c && catalog.regions[c.toUpperCase()]);
+  region = pick.toUpperCase();
+  $('region').innerHTML = Object.entries(catalog.regions).map(([c, r]) => `<option value="${c}">${r.flag} ${esc(r.label)}</option>`).join('');
+  $('region').value = region;
+  $('region').onchange = e => { region = e.target.value; localStorage.setItem('vv_region', region); history.replaceState(null, '', '?region=' + region); renderRegion(); };
+  buildNav(); renderRegion(); renderProducts(); initCarousel(); initDrawer(); initSearch();
+  $('buy').onclick = checkout;
+  $('clearFilter').onclick = () => setFilter(null);
+  if (p.get('verify')) verify(p);
+}
+
+function buildNav() {
+  $('topnav').innerHTML = DEPTS.slice(0, 4).map(d => `<a href="#shop" data-f="${d[2]}" class="hover:text-amber-400">${esc(d[1].split(' &')[0])}</a>`).join('');
+  $('deptList').innerHTML = DEPTS.map(d => `<li><a href="#shop" data-f="${d[2]}" class="flex justify-between items-center px-3 py-4 border-b hover:bg-stone-50"><span>${d[0]} ${esc(d[1])}</span><span class="text-stone-400">›</span></a></li>`).join('');
+  $('tiles').innerHTML = [['power','Power banks','from-amber-300 to-orange-400'],['solar','Solar fans','from-emerald-300 to-teal-500'],['all','Power-cut solutions','from-sky-300 to-indigo-400'],['all','All products','from-stone-300 to-stone-400']]
+    .map(t => `<a href="#shop" data-f="${t[0]}" class="rounded-2xl bg-gradient-to-br ${t[2]} p-4 min-h-[110px] flex items-end font-bold text-lg">${t[1]}</a>`).join('');
+  document.addEventListener('click', e => {
+    const a = e.target.closest('[data-f],[data-filter]'); if (!a) return;
+    setFilter((a.dataset.f || a.dataset.filter) === 'all' ? null : (a.dataset.f || a.dataset.filter)); closeDrawer();
+  });
+}
+
+function renderRegion() {
+  const r = catalog.regions[region];
+  $('deliverBar').textContent = r.delivery + ' · Pay with ' + r.methods.join(', ');
+  $('payBanner').textContent = r.methods.join(' · ');
+  $('phone').placeholder = 'Phone (' + r.phoneHint + ')';
+  $('buy').textContent = r.buttonLabel;
+}
+
+function setFilter(f) { filter = f; renderProducts(); $('clearFilter').classList.toggle('hidden', !f && !query); }
+
+function renderProducts() {
+  const q = query.toLowerCase();
+  const list = Object.entries(catalog.products).filter(([, p]) => (!filter || p.tag === filter) && (!q || (p.name + ' ' + p.blurb).toLowerCase().includes(q)));
+  $('shopTitle').textContent = filter === 'power' ? 'Power banks' : filter === 'solar' ? 'Solar fans' : query ? 'Results' : 'Top picks';
+  $('empty').classList.toggle('hidden', list.length > 0);
+  $('products').innerHTML = list.map(([id, p]) => `
+    <article class="bg-white rounded-2xl border border-stone-200 overflow-hidden flex">
+      <div class="w-32 sm:w-40 shrink-0 grid place-items-center text-5xl bg-gradient-to-br ${p.tag === 'solar' ? 'from-emerald-200 to-teal-300' : 'from-amber-200 to-orange-300'}" aria-hidden="true">${ICON[p.tag] || '📦'}</div>
+      <div class="p-4 flex flex-col flex-1">
+        <h3 class="font-bold text-lg leading-snug">${esc(p.name)}</h3>
+        <p class="text-stone-600 text-sm mt-1 flex-1">${esc(p.blurb)}</p>
+        <button data-add="${id}" class="mt-3 bg-amber-400 text-slate-900 font-bold rounded-full px-4 py-2.5 self-start">Add to cart</button>
+      </div>
+    </article>`).join('');
+  $('products').querySelectorAll('[data-add]').forEach(b => b.onclick = () => change(b.dataset.add, 1));
+}
+
+function change(id, d) { cart[id] = Math.max(0, Math.min(20, (cart[id] || 0) + d)); renderCart(); }
+
+function renderCart() {
+  const lines = Object.entries(cart).filter(([, q]) => q > 0);
+  const n = lines.reduce((s, [, q]) => s + q, 0);
+  $('count').textContent = n;
+  $('buy').disabled = !n;
+  $('summary').textContent = n ? n + ' item(s)' : 'Your cart is empty.';
+  $('lines').innerHTML = lines.map(([id, q]) => `<li class="py-2 flex items-center justify-between gap-3"><span class="text-sm">${esc(catalog.products[id].name)}</span><span class="flex items-center gap-2"><button data-d="-1" data-id="${id}" aria-label="Remove one" class="w-9 h-9 border rounded-lg">−</button><b>${q}</b><button data-d="1" data-id="${id}" aria-label="Add one" class="w-9 h-9 border rounded-lg">+</button></span></li>`).join('');
+  $('lines').querySelectorAll('button').forEach(b => b.onclick = () => change(b.dataset.id, Number(b.dataset.d)));
+}
+
+function initSearch() {
+  const go = v => { query = v.trim(); setFilter(filter); document.getElementById('shop').scrollIntoView(); };
+  [['searchForm','search'],['searchForm2','search2']].forEach(([f, i]) => $(f).onsubmit = e => { e.preventDefault(); go($(i).value); });
+}
+
+function initDrawer() {
+  $('menuBtn').onclick = () => { $('drawer').classList.remove('-translate-x-full'); $('scrim').classList.remove('hidden'); };
+  $('closeBtn').onclick = $('scrim').onclick = closeDrawer;
+  document.addEventListener('keydown', e => e.key === 'Escape' && closeDrawer());
+}
+function closeDrawer() { $('drawer').classList.add('-translate-x-full'); $('scrim').classList.add('hidden'); }
+
+function initCarousel() {
+  const n = 3; let i = 0, timer, x0 = null;
+  $('dots').innerHTML = Array.from({length:n}, (_, k) => `<button aria-label="Slide ${k+1}" class="w-2.5 h-2.5 rounded-full bg-white/60"></button>`).join('');
+  const show = k => { i = (k + n) % n; $('track').style.transform = `translateX(-${i * 100 / n}%)`; [...$('dots').children].forEach((d, j) => d.className = 'w-2.5 h-2.5 rounded-full ' + (j === i ? 'bg-white' : 'bg-white/50')); };
+  const auto = () => { clearInterval(timer); if (!matchMedia('(prefers-reduced-motion: reduce)').matches) timer = setInterval(() => show(i + 1), 5000); };
+  $('prev').onclick = () => { show(i - 1); auto(); };
+  $('next').onclick = () => { show(i + 1); auto(); };
+  [...$('dots').children].forEach((d, k) => d.onclick = () => { show(k); auto(); });
+  const t = $('track');
+  t.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, {passive:true});
+  t.addEventListener('touchend', e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) { show(i + (dx < 0 ? 1 : -1)); auto(); } x0 = null; });
+  show(0); auto();
+}
+
+async function checkout() {
+  const items = Object.entries(cart).filter(([, q]) => q > 0).map(([id, qty]) => ({ id, qty }));
+  const email = $('email').value.trim();
+  if (!/^\S+@\S+\.\S+$/.test(email)) { $('msg').textContent = 'Enter a valid email so we can send your receipt.'; return; }
+  $('buy').disabled = true; $('msg').textContent = 'Opening secure checkout…';
+  try {
+    const res = await fetch(API_BASE + '/api/checkout', { method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ region, items, email, name: $('name').value, phone: $('phone').value }) });
+    const d = await res.json(); if (!res.ok) throw new Error(d.error);
+    location.href = d.link;
+  } catch (e) { $('msg').textContent = 'Could not start payment: ' + e.message; $('buy').disabled = false; }
+}
+
+async function verify(p) {
+  $('msg').textContent = 'Confirming your payment…';
+  location.hash = 'checkout';
+  if (p.get('status') === 'cancelled') { $('msg').textContent = 'Payment cancelled. Your cart is still here.'; return; }
+  try {
+    const d = await (await fetch(API_BASE + '/api/verify?transaction_id=' + encodeURIComponent(p.get('transaction_id') || ''))).json();
+    $('msg').textContent = d.paid ? 'Payment confirmed. Thank you! Order ' + d.tx_ref : 'We could not confirm payment. If you were charged, contact us with your reference.';
+  } catch (e) { $('msg').textContent = 'Could not confirm payment right now. Please contact us.'; }
+}
+
+init();
+</script>
+</body>
+</html>
